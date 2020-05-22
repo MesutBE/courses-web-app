@@ -3,10 +3,15 @@
 const fs = require('fs');
 const path = require('path');
 const Joi = require('joi');
+const util = require('util');
 
 const config = require('../config');
 const DATA_DIR = path.join(__dirname, '/..', config.DATA_DIR, '/courses.json');
 
+
+
+const readFile = util.promisify(fs.readFile);
+const writeFile = util.promisify(fs.writeFile);
 
 const readJson = () => {
 
@@ -18,14 +23,19 @@ const readJson = () => {
 }
 
 const writeToJson = async (wholeJson) => {
-  const callbackWriteFile = (err, content) => {
-    if (err) { return console.error(err); };
-
-  };
-
   const toWrite = JSON.stringify(wholeJson, null, 2);
-  fs.writeFile(__dirname + '/../data/courses.json', toWrite, callbackWriteFile);
+  await writeFile(__dirname + '/../data/courses.json', toWrite);
 }
+
+// const writeToJson = async (wholeJson) => {
+//   const callbackWriteFile = (err, content) => {
+//     if (err) { return console.error(err); };
+
+//   };
+
+//   const toWrite = JSON.stringify(wholeJson, null, 2);
+//   fs.writeFile(__dirname + '/../data/courses.json', toWrite, callbackWriteFile);
+// }
 
 function validationCourse(course) {
 
