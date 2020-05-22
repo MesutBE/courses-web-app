@@ -32,7 +32,7 @@ if (config.MODE === 'development') {
 
 app.use('/', express.static(path.join(__dirname, 'client')));
 
-app.use('/api', api);
+app.use('/api/courses', api);
 
 app.use(function (err, req, res, next) {
   console.error(err.stack);
