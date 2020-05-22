@@ -13,9 +13,9 @@ const DATA_DIR = path.join(__dirname, '/..', config.DATA_DIR, '/courses.json');
 const readFile = util.promisify(fs.readFile);
 const writeFile = util.promisify(fs.writeFile);
 
-const readJson = () => {
+const readJson = async () => {
 
-  const objToBeParsed = fs.readFileSync(__dirname + '/../data/courses.json');
+  const objToBeParsed = await readFile(__dirname + '/../data/courses.json');
 
   const dataParsed = JSON.parse(objToBeParsed);
 
@@ -26,16 +26,6 @@ const writeToJson = async (wholeJson) => {
   const toWrite = JSON.stringify(wholeJson, null, 2);
   await writeFile(__dirname + '/../data/courses.json', toWrite);
 }
-
-// const writeToJson = async (wholeJson) => {
-//   const callbackWriteFile = (err, content) => {
-//     if (err) { return console.error(err); };
-
-//   };
-
-//   const toWrite = JSON.stringify(wholeJson, null, 2);
-//   fs.writeFile(__dirname + '/../data/courses.json', toWrite, callbackWriteFile);
-// }
 
 function validationCourse(course) {
 
@@ -48,15 +38,15 @@ function validationCourse(course) {
 
 const controllers = {
 
-  get: (req, res) => {    
-    const wholeJson = readJson();
+  get: async (req, res) => {    
+    const wholeJson = await readJson();
     
     res.send(wholeJson);
   },
 
-  getCourse: (req, res) => {
+  getCourse: async (req, res) => {
 
-    const wholeJson = readJson();
+    const wholeJson = await readJson();
     const courses = wholeJson.courses;
     const course = courses.find(c => c.id === parseInt(req.params.id));
 
@@ -64,7 +54,7 @@ const controllers = {
     res.send(course);
   },
 
-  post: (req, res) => {
+  post: async (req, res) => {
     // object restructuring
     const { error } = validationCourse(req.body); // result.error
 
@@ -76,7 +66,7 @@ const controllers = {
 
     }
 
-    const wholeJson = readJson();
+    const wholeJson = await readJson();
     const courses = wholeJson.courses;
 
     const course = {
@@ -85,16 +75,16 @@ const controllers = {
     };
     courses.push(course);
 
-    writeToJson(wholeJson);
+    await writeToJson(wholeJson);
 
     res.send(course);
   },
 
-  delete: (req, res) => {
+  delete: async (req, res) => {
     // LOok up the course
     //  Not existing, return 404
 
-    const wholeJson = readJson();
+    const wholeJson = await readJson();
     const courses = wholeJson.courses;
 
     const course = courses.find(c => c.id === parseInt(req.params.id));
@@ -105,18 +95,18 @@ const controllers = {
     const index = courses.indexOf(course);
     courses.splice(index, 1);
 
-    writeToJson(wholeJson);
+    await writeToJson(wholeJson);
 
     // Return the same course
     res.send(course);
 
   },
 
-  put: (req, res) => {
+  put: async (req, res) => {
     // Look up the course
     // If not existing, return 404
 
-    const wholeJson = readJson();
+    const wholeJson = await readJson();
     const courses = wholeJson.courses;
 
     const course = courses.find(c => c.id === parseInt(req.params.id));
@@ -140,7 +130,7 @@ const controllers = {
     course.name = req.body.name;
 
     // Update Json file...
-    writeToJson(wholeJson);
+    await writeToJson(wholeJson);
 
     // Return the updated course
     res.send(course);
