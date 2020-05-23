@@ -1,20 +1,65 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script
+      src="https://kit.fontawesome.com/ab20063917.js"
+      crossorigin="anonymous"
+    ></script>
+    <link
+      rel="stylesheet"
+      href="https://bootswatch.com/4/yeti/bootstrap.min.css"
+    />
+    <title>courses web-app</title>
+    <script type="module">
+      import { init } from "./app/init.js";
+      window.onload = init;
+    </script>
+  </head>
 
-<head>
-  <meta charset="utf-8" />
-  <title>courses web-app</title>
-
-  <link rel="stylesheet" href="./style.css">
-
-  <script type="module">
-    import { init } from './app/init.js'
-    window.onload = init;
-  </script>
-</head>
-
-<body>
-
-</body>
-
+  <body>
+    <div class="container mt-4">
+      <h1 class="display-4 text-center">
+        <i class="fas fa-book-open text-primary"></i> My<span
+          class="text-primary"
+          >Course</span
+        >List
+      </h1>
+      <form id="course-form">
+        <div class="form-group">
+          <label for="id">ID#</label>
+          <div class="input-group">
+            <input type="text" id="id" name="id" class="form-control" />  
+            <div class="input-group-append">
+              <input type="button" id="search" value="Search" class="btn btn-success"/>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="name">Course Name</label>
+          <div class="input-group">
+            <input type="text" id="name" name="name" class="form-control" />
+            <div class="input-group-append">
+              <input type="button" id="update" value="Update" class="btn btn-warning"/>
+            </div>
+          </div>
+        </div>
+        <input type="submit" value="Add Course" class="btn btn-primary btn-block"/>
+      </form>
+      <table class="table table-striped mt-5">
+        <thead>
+          <tr>
+            <th>ID#</th>
+            <th>Course Name</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody id="course-list"></tbody>
+      </table>
+    </div>
+    <script src="./interactions/interactions.js"></script>
+    <script src="./view/view.js"></script>
+    <script src="./app/fetch.js"></script>
+  </body>
 </html>

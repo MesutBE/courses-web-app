@@ -1,11 +1,8 @@
-const UI = require('../view/view.js');
-const fetch = require('../app/fetch.js');
-
-// Event: Add a Book
-document.querySelector('#course-form').addEventListener('submit', (e) => {
+// Event: Add a Course
+document.querySelector('#course-form').addEventListener('submit', async (e) => {
     // Prevent actual submit
     e.preventDefault();
-
+debugger
     // Get form values
     // To use FormData you need to make sure all your input elements have a name attribute.
     const formData = new FormData(e.target);
@@ -14,41 +11,88 @@ document.querySelector('#course-form').addEventListener('submit', (e) => {
     // const id = formData.get('id');
 
     // Validate
-    if (name === '') {
+    if (courseName === '') {
         UI.showAlert('Please fill the field', 'danger');
     } else {
+        if (courseName.length < 4) {
+            UI.showAlert('\"name\" length must be at least 3 characters long,', 'danger')
+            return
+        }
         const course = {
             name: courseName
         }
 
-        // Add Course to UI
-        UI.addBookToList(course);
-
-        // Add Course to store
+        await makeFetch.post(courseName)
+        const data = await makeFetch.get();
         
-        fetch.post(courseName)
-        UI.displayBooks(fetch.get());
-
+        UI.displayCourses(data);
+        
         // Show success message
         UI.showAlert('Course Added', 'success');
-
+        
         // Clear fields
         UI.clearFields();
     }
 });
 
 // Event: Remove a Course
-document.querySelector('#course-list').addEventListener('click', (e) => {
+document.querySelector('#course-list').addEventListener('click', async (e) => {
     // debugger
     if (e.target.classList.contains('delete')) {
         // Remove Course from UI
-        UI.deleteBook(e.target);
+        UI.deleteCourse(e.target);
 
         // Remove Course from store
-        fetch.delete(e.target.parentElement.previousElementSibling.textContent);
-        UI.displayBooks(fetch.get());
+        const idText = e.target.parentElement.previousElementSibling.previousElementSibling.textContent;
+        await makeFetch.delete(parseInt(idText));
+
+        const data = await makeFetch.get();
+        UI.displayCourses(data);
 
         // Show success message
-        UI.showAlert('Book Removed', 'success');
+        UI.showAlert('Course Removed', 'success');
     }
+});
+
+document.querySelector('#search').addEventListener('click', async (e) => {
+
+    const formData = new FormData(document.querySelector('#course-form'));
+    const courseId = formData.get('id');
+
+    if (courseId === ''){
+        const data = await makeFetch.get();
+
+        UI.displayCourses(data);
+        return
+    }
+    const course = await makeFetch.getCourse(parseInt(courseId));
+    
+    UI.displayCourses(course)
+
+    const nameField = document.querySelector('#name');
+    nameField.value = course.name;
+
+    // Show success message
+    UI.showAlert('Course Listed', 'success');
+});
+
+document.querySelector('#update').addEventListener('click', async (e) => {
+
+    const formData = new FormData(document.querySelector('#course-form'));
+    const courseId = formData.get('id');
+    const courseName =formData.get('name');
+
+    if (courseId === '' || courseName === '') {
+        return
+    }
+
+    const data = await makeFetch.put(courseId, courseName);
+
+    UI.displayCourses(data);
+
+    document.querySelector('#id').value = '';
+    document.querySelector('#name').value = '';
+
+    // Show success message
+    UI.showAlert('Course Updated', 'warning');
 });
