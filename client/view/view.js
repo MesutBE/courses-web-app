@@ -1,26 +1,32 @@
 // UI Class: Handle UI Tasks
 class UI {
-    static displayBooks(courses) {
+    static displayCourses(courses) {
+        if (typeof courses !== 'object') {return};
         const list = document.querySelector('#course-list');
         list.innerHTML = '';
-        courses.forEach((course) => UI.addBookToList(course));
+        if (Array.isArray(courses)){
+            courses.forEach((course) => UI.addCourseToList(course));
+        }else{
+            UI.addCourseToList(courses);
+        }
     }
 
-    // Add books
-    static addBookToList(course) {
+    // Add Courses
+    static addCourseToList(course) {
         const list = document.querySelector('#course-list');
 
         const row = document.createElement('tr');
         row.innerHTML = `
       <td>${course.id}</td>
-      <td>${course.title}</td>
+      <td>${course.name}</td>
       <td><a href="#" class="btn btn-danger btn-sm delete">X</a></td>
     `;
 
+        console.log('addCourseToList run..');
         list.appendChild(row);
     }
 
-    static deleteBook(el) {
+    static deleteCourse(el) {
         el.parentElement.parentElement.remove();
     }
 
@@ -38,8 +44,6 @@ class UI {
 
     static clearFields() {
         document.querySelector('#id').value = '';
-        document.querySelector('#title').value = '';
+        document.querySelector('#name').value = '';
     }
 }
-
-module.exports = UI;
