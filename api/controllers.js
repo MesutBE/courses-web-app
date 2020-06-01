@@ -15,12 +15,7 @@ const writeFile = util.promisify(fs.writeFile);
 
 const readJson = async () => {
 
-  const objToBeParsed = await readFile(DATA_DIR); //__dirname + '/../data/courses.json'
-
-  console.log(DATA_DIR);
-  console.log('hereee');
-  
-  
+  const objToBeParsed = await readFile(DATA_DIR); //__dirname + '/../data/courses.json'  
 
   const dataParsed = JSON.parse(objToBeParsed);
 
