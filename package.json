@@ -1,25 +1,29 @@
 {
-  "name": "refactored-dynamic-example",
+  "name": "courses-web-app",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "install-client": "cd client && npm install",
-    "heroku-postbuild": "npm run install-client",
+    "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node index.js",
-    "client": "cd client && npm start",
     "dev": "nodemon index.js"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MesutBE/courses-web-app.git"
+  },
+  "keywords": [],
   "author": "",
   "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MesutBE/courses-web-app/issues"
+  },
+  "homepage": "https://github.com/MesutBE/courses-web-app#readme",
   "dependencies": {
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "joi": "^14.3.1",
     "morgan": "^1.10.0"
-  },
-  "devDependencies": {
-    "nodemon": "^2.0.3"
   }
 }
