@@ -26,6 +26,7 @@ app.use(morgan('combined', {
     { flags: 'a' }
   )
 }));
+
 if (config.MODE === 'development') {
   app.use(morgan('dev'));
 };
