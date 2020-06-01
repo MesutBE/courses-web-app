@@ -50,15 +50,14 @@ const controllers = {
   },
 
   privateLogs: (req, res) => {
-    // const whatIWasLookingFor = {
-    //   dir: __dirname + '/../data/courses.json',
-    //   dir2: DATA_DIR,
-    // }
+    // use it for watch some values
+    const whatIWasLookingFor = {
+      dir: __dirname + '/../data/courses.json',
+      dir2: DATA_DIR,
+    }
 
+    res.json(whatIWasLookingFor);
 
-    // res.json(whatIWasLookingFor);
-
-    res.send("hello")
   },
 
   getCourse: async (req, res) => {

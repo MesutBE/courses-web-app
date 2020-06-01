@@ -3,6 +3,9 @@ const express = require('express');
 
 const router = express.Router();
 
+
+// ...../api/courses/..
+
 router.get('/', controllers.get);
 
 router.get('/:id', controllers.getCourse);
