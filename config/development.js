@@ -1,5 +1,5 @@
 module.exports = {
   MODE: 'development',
-  PORT: process.env.PORT,
+  PORT: 8080,
   DATA_DIR: '/data'
 };

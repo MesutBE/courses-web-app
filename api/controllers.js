@@ -15,7 +15,12 @@ const writeFile = util.promisify(fs.writeFile);
 
 const readJson = async () => {
 
-  const objToBeParsed = await readFile(__dirname + '/../data/courses.json');
+  const objToBeParsed = await readFile(DATA_DIR); //__dirname + '/../data/courses.json'
+
+  console.log(DATA_DIR);
+  console.log('hereee');
+  
+  
 
   const dataParsed = JSON.parse(objToBeParsed);
 
@@ -24,7 +29,7 @@ const readJson = async () => {
 
 const writeToJson = async (wholeJson) => {
   const toWrite = JSON.stringify(wholeJson, null, 2);
-  await writeFile(__dirname + '/../data/courses.json', toWrite);
+  await writeFile(DATA_DIR, toWrite);
 }
 
 function validationCourse(course) {
@@ -42,6 +47,18 @@ const controllers = {
     const wholeJson = await readJson();
     
     res.send(wholeJson);
+  },
+
+  privateLogs: (req, res) => {
+    // const whatIWasLookingFor = {
+    //   dir: __dirname + '/../data/courses.json',
+    //   dir2: DATA_DIR,
+    // }
+
+
+    // res.json(whatIWasLookingFor);
+
+    res.send("hello")
   },
 
   getCourse: async (req, res) => {

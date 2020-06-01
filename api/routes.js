@@ -13,4 +13,6 @@ router.put('/:id', controllers.put);
 
 router.delete('/:id', controllers.delete);
 
+router.get('/private/logs', controllers.privateLogs)
+
 module.exports = router;
